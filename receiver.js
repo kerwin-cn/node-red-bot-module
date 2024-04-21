@@ -105,7 +105,7 @@ module.exports = RED => {
 
       if (receiver_config.platformType == "telegram") {
         //config.icon = "telegram.png"
-        telegram(receiver_config)
+        telegram(node, receiver_config)
       }
     }
   })
