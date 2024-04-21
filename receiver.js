@@ -77,25 +77,18 @@ function telegram(node, receiver_config) {
 
   // replace the value below with the Telegram token you receive from @BotFather
   const token = receiver_config.telegram_key;
-
-  // Create a bot that uses 'polling' to fetch new updates
   const bot = new TelegramBot(token, { polling: true });
   node.telegram_bot = bot
 
-  // Listen for any kind of message. There are different kinds of
-  // messages.
   bot.on('message', (msg) => {
     node.send({ res, req, config: receiver_config, msg })
   });
   bot.on('polling_error', (msg) => {
     node.status({ text: `polling_error` + msg.message, fill: 'red', shape: 'ring' })
   });
-
   bot.on('poll', () => {
     node.status({ text: `polling`, fill: 'green', shape: 'ring' })
   });
-
-
 }
 
 module.exports = RED => {
@@ -111,7 +104,7 @@ module.exports = RED => {
       }
 
       if (receiver_config.platformType == "telegram") {
-        config.icon = "telegram.png"
+        //config.icon = "telegram.png"
         telegram(receiver_config)
       }
     }
