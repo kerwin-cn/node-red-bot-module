@@ -1,5 +1,5 @@
 const express = require('express')
-
+const WXBizMsgCrypt = require('wechat-crypto')
 const WeChat = require('./lib/wechat')
 const indexHtml = `<!DOCTYPE html>
 <html>
