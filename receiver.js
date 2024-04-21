@@ -47,10 +47,13 @@ module.exports = RED => {
                 const asr = await bd.getAsr(amr)
                 message.AsrContent = asr
               }
-              node.status({ text: `${message.MsgType}(${message.MsgId})` })
+              node.status({ text: `${message.MsgType}(${message.Content})` })
               node.send({ res, req, config: receiver_config, message })
               // 应答
               res.end('')
+              setTimeout(() => {
+                node.status({ text: `port: ${receiver_config.wechat_port}`, fill: 'green', shape: 'dot' })
+              }, 1000);
             } catch (err) {
               node.status({ text: err.message, fill: 'red', shape: 'ring' })
               node.warn(err)
