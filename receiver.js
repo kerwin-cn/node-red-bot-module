@@ -1,6 +1,7 @@
 const express = require('express')
 const WXBizMsgCrypt = require('wechat-crypto')
 const WeChat = require('./lib/wechat')
+process.env['NTBA_FIX_319'] = 1;
 const indexHtml = `<!DOCTYPE html>
 <html>
 <head>
@@ -77,7 +78,7 @@ function telegram(node, receiver_config) {
 
   // replace the value below with the Telegram token you receive from @BotFather
   const token = receiver_config.telegram_key;
-  const bot = new TelegramBot(token, { polling: true });
+  const bot = new TelegramBot(token, { polling: true, request: { strictSSL: false } });
   node.telegram_bot = bot
 
   bot.on('message', (msg) => {
