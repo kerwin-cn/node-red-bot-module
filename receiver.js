@@ -23,7 +23,7 @@ module.exports = RED => {
       RED.nodes.createNode(node, config)
       const receiver_config = RED.nodes.getNode(config.botConfig)
 
-      if (config.platformType == "wechat") {
+      if (receiver_config.platformType == "wechat") {
         const cryptor = new WXBizMsgCrypt(receiver_config.wechat_token, receiver_config.wechat_aeskey, receiver_config.wechat_corpid)
         const wx = new WeChat(node, receiver_config, cryptor)
         const app = express()
@@ -63,7 +63,7 @@ module.exports = RED => {
         })
 
         // 404
-        app.use((req, res, next) => {
+        app.use((req, res) => {
           res.status(404).end('')
         })
 
