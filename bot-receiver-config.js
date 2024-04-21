@@ -4,17 +4,17 @@ module.exports = (RED) => {
         this.name = n.name;
         this.platformType = n.platformType;
         if (n.platformType == "wechat") {
-            this.platformConfig["wechat_port"] = n.wechat_port
-            this.platformConfig["wechat_corpid"] = n.wechat_corpid
-            this.platformConfig["wechat_agentid"] = n.wechat_agentid
-            this.platformConfig["wechat_corpsecret"] = n.wechat_corpsecret
-            this.platformConfig["wechat_url"] = n.wechat_url
-            this.platformConfig["wechat_token"] = n.wechat_token
-            this.platformConfig["wechat_aeskey"] = n.wechat_aeskey
+            this.wechat_port = n.wechat_port
+            this.wechat_corpid = n.wechat_corpid
+            this.wechat_agentid = n.wechat_agentid
+            this.wechat_corpsecret = n.wechat_corpsecret
+            this.wechat_url = n.wechat_url
+            this.wechat_token = n.wechat_token
+            this.wechat_aeskey = n.wechat_aeskey
         }
 
         if (n.platformType == "telegram") {
-            this.platformConfig["telegram_key"] = n.telegram_key
+            this.telegram_key = n.telegram_key
         }
 
     }
