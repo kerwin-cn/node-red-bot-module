@@ -1,10 +1,10 @@
 <script type="text/javascript">
     RED.nodes.registerType('receiver', {
         category: '机器人模块',
-        color: '#7ac6cb',
-        paletteLabel: '服务端',
+        color: '#3BABDD',
+        paletteLabel: 'bot接收器',
         label() {
-            return this.name || '服务端'
+            return this.name || 'bot接收器'
         },
         defaults: {
             name: {
@@ -16,8 +16,8 @@
             }
         },
         inputs: 0,
-        outputs: 1,
-        icon: 'white-globe.png'
+        outputs: this.platformType == "wechat" ? 1 : 2,
+        icon: this.platformType == "wechat" ? "white-globe.png" : "telegram.png",
     })
 </script>
 <script type="text/x-red" data-template-name="receiver">
