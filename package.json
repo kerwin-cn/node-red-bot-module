@@ -1,0 +1,42 @@
+{
+  "name": "node-red-bot-module",
+  "version": "1.0.4",
+  "description": "bot框架，可以增加adapter来支持更多的平台",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kerwin-cn/node-red-bot-module.git"
+  },
+  "keywords": [
+    "bot",
+    "node-red",
+    "nodered",
+    "NodeRed",
+    "WeChat",
+    "BizWeChat"
+  ],
+  "dependencies": {
+    "axios": ">=0.18.1",
+    "express": "^4.16.4",
+    "form-data": "^2.4.0",
+    "marked": "^0.7.0",
+    "mkdirp": "^0.5.1",
+    "wechat-crypto": "0.0.2",
+    "xml2js": "^0.4.19"
+  },
+  "node-red": {
+    "nodes": {
+      "receiver": "receiver.js",
+      "bot-receiver-config": "bot-receiver-config.js"
+    }
+  },
+  "author": "kerwin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kerwin-cn/node-red-bot-module/issues"
+  },
+  "homepage": "https://github.com/kerwin-cn/node-red-bot-module#readme"
+}

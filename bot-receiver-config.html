@@ -1,0 +1,100 @@
+<script type="text/javascript">
+
+  // 选择器
+  function choose_type(platform_type) {
+    $('[id^="config-"]').each(function () {
+      'config-' + platform_type == this.id ? $(this).show() : $(this).hide()
+    });
+  }
+  function is_selected_type(type) {
+    return $("#node-config-input-platformType").val() == type
+  }
+
+  function switch_platform(n) {
+    choose_type(n.platformType)
+    // 改变平台设置
+    $("#node-config-input-platformType").on('change', function () {
+      choose_type($("#node-config-input-platformType").val())
+      // 把n设置一下
+    });
+  }
+  RED.nodes.registerType('bot-receiver-config', {
+    category: 'config',
+    defaults: {
+      name: { value: "" },
+      platformType: { value: "wechat" },
+      platformConfig: {},
+      // 微信的 =============================
+      wechat_port: { value: "1881" },
+      wechat_corpid: { value: "" },
+      wechat_agentid: { value: "" },
+      wechat_corpsecret: { value: "" },
+      wechat_url: { value: "" },
+      wechat_token: { value: "" },
+      wechat_aeskey: { value: "" },
+
+      // 电报的 =============================
+      telegram_key: { value: "" },
+
+    },
+    label: function () {
+      switch_platform(this)
+      return this.name + ":" + this.platformType;
+    }
+  });
+
+</script>
+
+<script type="text/html" data-template-name="bot-receiver-config">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> 名称</label>
+        <input type="text" id="node-config-input-name" placeholder="机器人">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-platformType"><i class="fa fa-tag"></i> 选择平台</label>
+        <select id="node-config-input-platformType" >
+            <option value="wechat">微信wechat</option>
+            <option value="telegram">电报telegram</option>
+        </select>
+    </div>
+        <div id="config-wechat">
+              <div class="form-row">
+                <label for="node-config-input-wechat_port"><i></i>Port</label>
+                <input type="text" id="node-config-input-wechat_port" placeholder="本服务端口">
+              </div>
+              <div class="form-row">
+                <label for="node-config-input-wechat_corpid"><i></i>Corpid</label>
+                <input type="text" id="node-config-input-wechat_corpid" placeholder="微信企业ID">
+              </div>
+              <div class="form-row">
+                <label for="node-config-input-wechat_agentid"><i></i>Agentid</label>
+                <input type="text" id="node-config-input-wechat_agentid" placeholder="微信应用ID">
+              </div>
+              <div class="form-row">
+                <label for="node-config-input-wechat_corpsecret"><i></i>Secret</label>
+                <input type="text" id="node-config-input-wechat_corpsecret" placeholder="微信应用Secret">
+              </div>
+              <div class="form-row">
+                <label for="node-config-input-wechat_url"><i></i>Url</label>
+                <input type="text" id="node-config-input-wechat_url" placeholder="微信应用回调URL(http或https开头)">
+              </div>
+              <div class="form-row">
+                <label for="node-config-input-wechat_token"><i></i>Token</label>
+                <input type="text" id="node-config-input-wechat_token" placeholder="微信应用回调Token">
+              </div>
+              <div class="form-row">
+                <label for="node-config-input-wechat_aeskey"><i></i>EncAESKey</label>
+                <input type="text" id="node-config-input-wechat_aeskey" placeholder="微信应用回调EncodingAESKey">
+              </div>
+        </div>
+      <div id="config-telegram">
+          <div class="form-row">
+            <label for="node-config-input-port"><i></i>Port</label>
+            <input type="text" id="node-config-input-telegram_key" placeholder="机器人key">
+          </div>
+      </div>
+</script>
+
+<script type="text/html" data-help-name="bot-receiver-config">
+    <p>平台配置，添加机器人111</p>
+</script>
