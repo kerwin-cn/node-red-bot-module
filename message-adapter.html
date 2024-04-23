@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    RED.nodes.registerType('message-adapter', {
+        category: '机器人模块',
+        color: '#3BABDD',
+        paletteLabel: '消息适配器',
+        label() {
+            return this.name || '消息适配器'
+        },
+        defaults: {
+            name: {
+                value: ''
+            },
+            botConfig: {
+                value: '',
+                type: 'bot-receiver-config'
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "font-awesome/fa-comment-o"
+    })
+</script>
+<script type="text/x-red" data-template-name="receiver">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>名称</label>
+        <input type="text" id="node-input-name">
+      </div>
+      <div class="form-row">
+        <label for="node-input-botConfig"><i class="icon-tag"></i>配置</label>
+        <input type="text" id="node-input-botConfig">
+    </div>
+
+</script>
+<script type="text/x-red" data-help-name="receiver">
+自己就写
+</script>

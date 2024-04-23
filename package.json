@@ -1,6 +1,6 @@
 {
   "name": "node-red-bot-module",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "bot框架，可以增加adapter来支持更多的平台",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,7 @@
   "node-red": {
     "nodes": {
       "receiver": "receiver.js",
+      "message-adapter": "message-adapter.js",
       "bot-receiver-config": "bot-receiver-config.js"
     }
   },
