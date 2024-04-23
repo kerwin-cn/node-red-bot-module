@@ -22,7 +22,7 @@ function wechat(node, receiver_config) {
   const cryptor = new WXBizMsgCrypt(receiver_config.wechat_token, receiver_config.wechat_aeskey, receiver_config.wechat_corpid)
   const wx = new WeChat(node, receiver_config, cryptor)
   const app = express()
-  node.icon = "font-awesome/fa-weixin"
+
   // 接收消息主逻辑
   app.all('/', async (req, res) => {
     if (req.method == 'GET') {
@@ -34,22 +34,22 @@ function wechat(node, receiver_config) {
         res.status(200).send(indexHtml)
       }
     } else {
+      const show_polling_state = setTimeout(() => {
+        node.status({ text: "port: " + receiver_config.wechat_port, fill: 'green', shape: 'dot' })
+      }, 2000);
       // === 正常通讯消息 ==========
       try {
         const message = await wx.getMessage(req)
-        console.log(`receive message: ${JSON.stringify(message)}`)
         if (message.MsgType == 'voice' && receiver_config.client_id && receiver_config.client_id) {
           const amr = await wx.getMedia(message.MediaId)
           const asr = await bd.getAsr(amr)
           message.AsrContent = asr
         }
         node.send({ playload: { "message_type": "wechat", message: message } })
-        node.status({ text: `${message.MsgType}(${message.Content})` })
+        node.status({ text: message.MsgType + message.Content })
+        show_polling_state.refresh()
         // 应答
         res.end('')
-        setTimeout(() => {
-          node.status({ text: `port: ${receiver_config.wechat_port}`, fill: 'green', shape: 'dot' })
-        }, 1000);
       } catch (err) {
         node.status({ text: err.message, fill: 'red', shape: 'ring' })
         node.warn(err)
@@ -76,14 +76,16 @@ function wechat(node, receiver_config) {
 function telegram(node, receiver_config) {
   node.icon = "font-awesome/fa-telegram"
   const TelegramBot = require('node-telegram-bot-api');
-
-  // replace the value below with the Telegram token you receive from @BotFather
-  const token = receiver_config.telegram_key;
-  const bot = new TelegramBot(token, { polling: true, request: { strictSSL: false } });
-  node.telegram_bot = bot
   const show_polling_state = setTimeout(() => {
     node.status({ text: `polling`, fill: 'green', shape: 'dot' })
   }, 2000);
+
+  // replace the value below with the Telegram token you receive from @BotFather
+  const bot = new TelegramBot(receiver_config.telegram_key);
+
+  if (!bot.isPolling()) {
+    bot.startPolling()
+  }
 
   bot.on('message', (msg) => {
     node.send({ playload: { "message_type": "telegram", "message": msg } })
@@ -94,10 +96,7 @@ function telegram(node, receiver_config) {
     node.status({ text: `polling_error | ` + msg.message, fill: 'red', shape: 'ring' })
     bot.stopPolling()
   });
-  node.on('close', function () {
-    bot.bot.stopPolling()
-    node.status({ text: `closed`, fill: 'red', shape: 'ring' })
-  });
+  node.on('close', () => bot.stopPolling());
 }
 
 module.exports = RED => {
@@ -107,13 +106,9 @@ module.exports = RED => {
       const node = this
       RED.nodes.createNode(node, config)
       const receiver_config = RED.nodes.getNode(config.botConfig)
-      if (receiver_config.platformType == "wechat") {
-        wechat(node, receiver_config)
-      }
-      if (receiver_config.platformType == "telegram") {
-        //config.icon = "telegram.png"
-        telegram(node, receiver_config)
-      }
+
+      receiver_config.platformType == "wechat" ? wechat(node, receiver_config) : null
+      receiver_config.platformType == "telegram" ? telegram(node, receiver_config) : null
     }
   })
 }
