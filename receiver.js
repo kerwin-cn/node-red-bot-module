@@ -45,7 +45,7 @@ function wechat(node, receiver_config) {
           const asr = await bd.getAsr(amr)
           message.AsrContent = asr
         }
-        node.send({ playload: { "message_type": "wechat", message: message } })
+        node.send({ payload: { "message_type": "wechat", message: message } })
         node.status({ text: message.MsgType + message.Content })
         show_polling_state.refresh()
         // 应答
@@ -88,7 +88,7 @@ function telegram(node, receiver_config) {
   }
 
   bot.on('message', (msg) => {
-    node.send({ playload: { "message_type": "telegram", "message": msg } })
+    node.send({ payload: { "message_type": "telegram", "message": msg } })
     node.status({ text: `message:` + msg.text, fill: 'green', shape: 'dot' })
     show_polling_state.refresh()
   });
