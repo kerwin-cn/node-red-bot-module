@@ -2,11 +2,12 @@
     RED.nodes.registerType('receiver', {
         category: '机器人模块',
         color: '#3BABDD',
-        paletteLabel: 'bot接收器',
+        paletteLabel: '消息接收器',
         label() {
-            return this.name || 'bot接收器'
+            return this.name || '消息接收器'
         },
         defaults: {
+            buttonState: { value: true },
             name: {
                 value: ''
             },
@@ -16,8 +17,8 @@
             }
         },
         inputs: 0,
-        outputs: this.platformType == "wechat" ? 1 : 2,
-        icon: this.platformType == "wechat" ? "alert.svg" : "comment.svg",
+        outputs: 1,
+        icon: "font-awesome/fa-cloud"
     })
 </script>
 <script type="text/x-red" data-template-name="receiver">

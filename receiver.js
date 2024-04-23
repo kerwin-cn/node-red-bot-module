@@ -17,11 +17,12 @@ ok
 </html>`
 
 
-
-function wechat(receiver_config) {
+// 微信的处理
+function wechat(node, receiver_config) {
   const cryptor = new WXBizMsgCrypt(receiver_config.wechat_token, receiver_config.wechat_aeskey, receiver_config.wechat_corpid)
   const wx = new WeChat(node, receiver_config, cryptor)
   const app = express()
+  node.icon = "font-awesome/fa-weixin"
   // 接收消息主逻辑
   app.all('/', async (req, res) => {
     if (req.method == 'GET') {
@@ -42,8 +43,8 @@ function wechat(receiver_config) {
           const asr = await bd.getAsr(amr)
           message.AsrContent = asr
         }
+        node.send({ playload: { "message_type": "wechat", message: message } })
         node.status({ text: `${message.MsgType}(${message.Content})` })
-        node.send({ res, req, config: receiver_config, message })
         // 应答
         res.end('')
         setTimeout(() => {
@@ -68,27 +69,34 @@ function wechat(receiver_config) {
   })
   server.on('error', ({ message }) => { node.status({ text: message, fill: 'red', shape: 'ring' }) })
   node.on('close', () => server.close())
-
-
 }
 
 
+// 电报的处理
 function telegram(node, receiver_config) {
+  node.icon = "font-awesome/fa-telegram"
   const TelegramBot = require('node-telegram-bot-api');
 
   // replace the value below with the Telegram token you receive from @BotFather
   const token = receiver_config.telegram_key;
   const bot = new TelegramBot(token, { polling: true, request: { strictSSL: false } });
   node.telegram_bot = bot
+  const show_polling_state = setTimeout(() => {
+    node.status({ text: `polling`, fill: 'green', shape: 'dot' })
+  }, 2000);
 
   bot.on('message', (msg) => {
-    node.send({ res, req, config: receiver_config, msg })
+    node.send({ playload: { "message_type": "telegram", "message": msg } })
+    node.status({ text: `message:` + msg.text, fill: 'green', shape: 'dot' })
+    show_polling_state.refresh()
   });
   bot.on('polling_error', (msg) => {
-    node.status({ text: `polling_error` + msg.message, fill: 'red', shape: 'ring' })
+    node.status({ text: `polling_error | ` + msg.message, fill: 'red', shape: 'ring' })
+    bot.stopPolling()
   });
-  bot.on('poll', () => {
-    node.status({ text: `polling`, fill: 'green', shape: 'ring' })
+  node.on('close', function () {
+    bot.bot.stopPolling()
+    node.status({ text: `closed`, fill: 'red', shape: 'ring' })
   });
 }
 
@@ -99,11 +107,9 @@ module.exports = RED => {
       const node = this
       RED.nodes.createNode(node, config)
       const receiver_config = RED.nodes.getNode(config.botConfig)
-
       if (receiver_config.platformType == "wechat") {
-        wechat(receiver_config)
+        wechat(node, receiver_config)
       }
-
       if (receiver_config.platformType == "telegram") {
         //config.icon = "telegram.png"
         telegram(node, receiver_config)
