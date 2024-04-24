@@ -5,7 +5,7 @@
 
 
 # 特别感谢 
-- 微信直接复制的这个项目中的代码 https://github.com/FlashSoft/node-red-contrib-bizwechat.git
-- 电报直接复制的这个 https://github.com/windkh/node-red-contrib-telegrambot.git
+- 微信引入 https://github.com/hpyer/node-easywechat.git https://easywechat.com/5.x/ 
+- 电报直接复制的这个 node-telegram-bot-api https://github.com/yagop/node-telegram-bot-api.git
 
 

@@ -24,7 +24,7 @@ module.exports = RED => {
         message.is_group = false
 
         //把ps传进去
-        message.res = msg.ps.res
+        message.wechat_work = msg.ps.wechat_work
       }
       if (msg.message_type == "telegram") {
 
