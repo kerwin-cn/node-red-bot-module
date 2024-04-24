@@ -32,7 +32,6 @@ module.exports = RED => {
           message.content = msg.message.text
         }
 
-
         message.from_user = msg.message.from.id
         message.to_user = null
         message.chat_id = msg.message.chat.id

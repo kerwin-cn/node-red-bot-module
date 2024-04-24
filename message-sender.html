@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('receiver', {
+    RED.nodes.registerType('message-sender', {
         category: '机器人模块',
         color: '#3BABDD',
         paletteLabel: '消息发送器',
@@ -18,10 +18,10 @@
         },
         inputs: 1,
         outputs: 0,
-        icon: "font-awesome/fa-cloud"
+        icon: "font-awesome/fa-send"
     })
 </script>
-<script type="text/x-red" data-template-name="receiver">
+<script type="text/x-red" data-template-name="message-sender">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i>名称</label>
         <input type="text" id="node-input-name">
@@ -32,6 +32,6 @@
     </div>
 
 </script>
-<script type="text/x-red" data-help-name="receiver">
+<script type="text/x-red" data-help-name="message-sender">
 自己就写
 </script>
