@@ -14,7 +14,6 @@ module.exports = RED => {
       message.message_type = msg.message_type
       if (msg.message_type == "wechat") {
 
-        // TODO统一
         message.message_id = msg.message.MsgId
         message.content_type = msg.message.MsgType
         message.content = msg.message.Content
@@ -22,6 +21,7 @@ module.exports = RED => {
         message.from_user = msg.message.FromUserName
         message.to_user = msg.message.ToUserName
         message.chat_id = null
+        message.is_group = false
 
       }
       if (msg.message_type == "telegram") {
@@ -33,11 +33,14 @@ module.exports = RED => {
         }
 
 
-
         message.from_user = msg.message.from.id
         message.to_user = null
         message.chat_id = msg.message.chat.id
+        message.is_group = msg.message.chat.id < 0 ? true : false
 
+      }
+      if (msg.message_type == "customize") {
+        message = msg.message
       }
 
       send(message)
