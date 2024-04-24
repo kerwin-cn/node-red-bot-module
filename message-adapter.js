@@ -8,12 +8,12 @@ module.exports = RED => {
       const message = {}
       // do something with 'msg'
       //TODO
-      console.log(msg)
+      //console.log(msg)
 
 
       message.message_type = msg.message_type
-      if (msg.message_type == "wechat") {
 
+      if (msg.message_type == "wechat") {
         message.message_id = msg.message.MsgId
         message.content_type = msg.message.MsgType
         message.content = msg.message.Content
@@ -22,13 +22,13 @@ module.exports = RED => {
         message.to_user = msg.message.ToUserName
         message.chat_id = null
         message.is_group = false
-
-        //把ps传进去
-        message.wechat_work = msg.ps.wechat_work
       }
-      if (msg.message_type == "telegram") {
 
+
+      if (msg.message_type == "telegram") {
         message.message_id = msg.message.message_id
+
+
         if ("text" in msg.message) {
           message.content_type = "text"
           message.content = msg.message.text
@@ -45,6 +45,9 @@ module.exports = RED => {
         message.is_group = msg.message.chat.id < 0 ? true : false
 
       }
+
+
+
       if (msg.message_type == "customize") {
         message = msg.message
       }

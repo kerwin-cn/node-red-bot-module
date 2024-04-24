@@ -9,14 +9,8 @@ module.exports = RED => {
 
     this.on('input', function (msg, _, done) {
 
-      send_message = {
-        message_type: msg.content_type,
-        chat_id: msg.chat_id,
-        message: msg.content
-      }
-
-      msg.message_type == "wechat" ? wechat_sender(this, sender_config, send_message) : null
-      msg.message_type == "telegram" ? telegram_sender(this, sender_config, send_message) : null
+      msg.message_type == "wechat" ? wechat_sender(this, sender_config, msg) : null
+      msg.message_type == "telegram" ? telegram_sender(this, sender_config, msg) : null
 
       if (done) {
         done();
