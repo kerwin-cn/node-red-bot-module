@@ -23,13 +23,20 @@ module.exports = RED => {
         message.chat_id = null
         message.is_group = false
 
+        //把ps传进去
+        message.res = msg.ps.res
       }
       if (msg.message_type == "telegram") {
 
         message.message_id = msg.message.message_id
-        if (msg.message.text != undefined) {
+        if ("text" in msg.message) {
           message.content_type = "text"
           message.content = msg.message.text
+        }
+
+        if ("photo" in msg.message) {
+          message.content_type = "image"
+          message.content = msg.message.photo
         }
 
         message.from_user = msg.message.from.id
