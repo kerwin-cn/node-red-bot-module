@@ -33,5 +33,14 @@
 
 </script>
 <script type="text/x-red" data-help-name="message-sender">
-自己就写
+
+    接收参数为： 就可以发送至相应平台，一定要选对平台配置
+    send_message = {
+      message_type: msg.message_type,
+      chat_id: msg.chat_id,
+      to_user: msg.to_user,
+      content_type: msg.content_type,//必须有
+      content: msg.content,//必须有
+      ps: msg.ps
+    }
 </script>

@@ -16,9 +16,22 @@ module.exports = RED => {
         content: msg.content,//必须有
         ps: msg.ps
       }
+      if (msg.message_type == sender_config.platformType) {
+        switch (msg.message_type) {
+          case "wechat":
+            wechat_sender(sender_config, send_message)
+            break;
+          case "telegram":
+            telegram_sender(sender_config, send_message)
+            break;
+          default:
+            // TODO 更改状态，提醒[平台类型不支持]
+            break;
+        }
+      } else {
+        // TODO 更改状态，提醒发送器不匹配
+      }
 
-      msg.message_type == "wechat" ? wechat_sender(sender_config, send_message) : null
-      msg.message_type == "telegram" ? telegram_sender(sender_config, send_message) : null
 
       if (done) {
         done();

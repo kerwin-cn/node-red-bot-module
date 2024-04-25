@@ -24,14 +24,14 @@
 
 </script>
 <script type="text/x-red" data-help-name="message-adapter">
-出口参数
+直接连接接收器，这里会把各个平台的消息统一成以下几个字段，应用时函数捕获，只更改to_user content_type 和 content 就可以了
 message = {
     message_type: msg.message_type,
     chat_id: null,
     from_user: null,
     content_type: null,
     content: null,
-    ps:
+    ps: null
 }
 
 </script>
